@@ -4,6 +4,8 @@ const { Server } = require('socket.io');
 const redis = require('./client/redisClient');
 const roomRoutes = require('./routes/rooms');
 const roomService = require('./services/roomService');
+const cookieParser = require('cookie-parser');
+const crypto = require('crypto');
 
 require('dotenv').config();
 
@@ -15,9 +17,21 @@ const io = new Server(server, {
 
 // Middleware
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes
 app.use('/rooms', roomRoutes);
+
+app.use((req, res, next) => {
+  if (!req.cookies.userId) {
+    const newId = crypto.randomUUID(); // or shortid or nanoid
+    res.cookie('userId', newId, { httpOnly: true, sameSite: 'Lax' });
+    req.userId = newId;
+  } else {
+    req.userId = req.cookies.userId;
+  }
+  next();
+});
 
 // Socket.IO Events
 io.on('connection', (socket) => {
