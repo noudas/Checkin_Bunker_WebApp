@@ -40,9 +40,29 @@ router.post('/:roomId/status', async (req, res) => {
   const exists = await roomService.roomExists(roomId);
   if (!exists) return res.status(404).json({ error: 'Room not found' });
 
-  await roomService.setUserStatus(roomId, userId, status, name);
-  res.json({ message: 'Status updated', userId });
+  const added = await roomService.addUserStatus(roomId, userId, status, name);
+  res.status(201).json({ message: 'Status set', userId });
 });
+
+// PUT /rooms/:roomId/status - Update user's status
+router.put('/:roomId/status', async (req, res) => {
+  const { status, name } = req.body;
+  const userId = req.userId;
+  const roomId = req.params.roomId;
+
+  if (!status) {
+    return res.status(400).json({ error: 'status is required to update' });
+  }
+
+  const exists = await roomService.roomExists(roomId);
+  if (!exists) return res.status(404).json({ error: 'Room not found' });
+
+  const updated = await roomService.updateUserStatus(roomId, userId, status, name);
+  if (!updated) return res.status(404).json({ error: 'User not found in room' });
+
+  res.json({ message: 'Status updated successfully' });
+});
+
 
 router.delete('/:roomId/quit', async (req, res) => {
   const roomId = req.params.roomId;
