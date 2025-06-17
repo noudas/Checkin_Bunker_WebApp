@@ -89,13 +89,16 @@ async function removeUser(roomId, userId) {
 
 async function cleanRooms() {
   const rooms = await redis.sMembers('rooms');
+
   for (const roomId of rooms) {
     const exists = await redis.exists(getStatusKey(roomId));
     if (!exists) {
-      await redis.sRem('rooms', roomId); // Remove from known room list
+      await redis.sRem('rooms', roomId);
+      console.log(`Room ${roomId} cleaned from registry.`);
     }
   }
 }
+
 
 module.exports = {
   createRoom,

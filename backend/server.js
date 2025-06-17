@@ -22,6 +22,14 @@ app.use(cookieParser());
 // Routes
 app.use('/rooms', roomRoutes);
 
+
+// Run cleanup every 10 minutes
+setInterval(() => {
+    console.log('Running cleanup task...');
+    roomService.cleanRooms().catch(console.error);
+}, 10 * 60 * 1000); // 10 minutes
+
+
 app.use((req, res, next) => {
   if (!req.cookies.userId) {
     const newId = crypto.randomUUID(); // or shortid or nanoid
