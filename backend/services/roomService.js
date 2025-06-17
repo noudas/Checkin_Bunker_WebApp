@@ -99,6 +99,26 @@ async function cleanRooms() {
   }
 }
 
+async function getUserStatus(roomId, userId) {
+  const [status, name] = await Promise.all([
+    redis.hGet(getStatusKey(roomId), userId),
+    redis.hGet(getNameKey(roomId), userId),
+  ]);
+
+  if (!status) return null;
+
+  return {
+    userId,
+    name: name || userId,
+    status,
+  };
+}
+
+async function getUsersInRoom(roomId) {
+  return await redis.sMembers(getUsersKey(roomId));
+}
+
+
 
 module.exports = {
   createRoom,
@@ -108,4 +128,6 @@ module.exports = {
   getRoomStatus,
   removeUser,
   cleanRooms,
+  getUserStatus,
+  getUsersInRoom,
 };

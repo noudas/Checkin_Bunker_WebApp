@@ -72,5 +72,27 @@ router.delete('/:roomId/quit', async (req, res) => {
   res.json({ message: `User ${userId} removed from room ${roomId}` });
 });
 
+router.get('/:roomId/status/:userId', async (req, res) => {
+  const { roomId, userId } = req.params;
+
+  const exists = await roomService.roomExists(roomId);
+  if (!exists) return res.status(404).json({ error: 'Room not found' });
+
+  const user = await roomService.getUserStatus(roomId, userId);
+  if (!user) return res.status(404).json({ error: 'User not found in room' });
+
+  res.json(user);
+});
+
+router.get('/:roomId/users', async (req, res) => {
+  const roomId = req.params.roomId;
+
+  const exists = await roomService.roomExists(roomId);
+  if (!exists) return res.status(404).json({ error: 'Room not found' });
+
+  const users = await roomService.getUsersInRoom(roomId);
+  res.json({ roomId, users });
+});
+
 
 module.exports = router;
