@@ -40,9 +40,10 @@ router.post('/:roomId/status', async (req, res) => {
   const exists = await roomService.roomExists(roomId);
   if (!exists) return res.status(404).json({ error: 'Room not found' });
 
-  const added = await roomService.addUserStatus(roomId, userId, status, name);
+  await roomService.setUserStatus(roomId, userId, status, name);
   res.status(201).json({ message: 'Status set', userId });
 });
+
 
 // PUT /rooms/:roomId/status - Update user's status
 router.put('/:roomId/status', async (req, res) => {
