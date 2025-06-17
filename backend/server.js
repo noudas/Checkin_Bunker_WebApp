@@ -6,6 +6,7 @@ const roomRoutes = require('./routes/rooms');
 const roomService = require('./services/roomService');
 const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
+const cors = require('cors');
 
 require('dotenv').config();
 
@@ -18,6 +19,12 @@ const io = new Server(server, {
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({ origin: '*' }));
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
 
 // Routes
 app.use('/rooms', roomRoutes);
