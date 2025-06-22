@@ -30,10 +30,13 @@ export async function fetchRoomUsers(roomId: string) {
   return data.users;
 }
 
-export async function leaveRoom(roomId: string, userId: string) {
-  await fetch(`${BASE_URL}/rooms/${roomId}/quit`, {
+export async function leaveRoom(roomId: string, userId: string): Promise<void> {
+  const res = await fetch(`${BASE_URL}/rooms/${roomId}/quit?userId=${encodeURIComponent(userId)}`, {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ userId }),
   });
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.error || 'Failed to leave room');
+  }
 }

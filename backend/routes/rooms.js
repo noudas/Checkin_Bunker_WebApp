@@ -70,10 +70,19 @@ router.put('/:roomId/status', async (req, res) => {
 
 router.delete('/:roomId/quit', async (req, res) => {
   const roomId = req.params.roomId;
-  const userId = req.userId;
+  const userId = req.query.userId;
 
-  await roomService.removeUser(roomId, userId);
-  res.json({ message: `User ${userId} removed from room ${roomId}` });
+  if (!userId) {
+    return res.status(400).json({ error: 'Missing userId in query' });
+  }
+
+  try {
+    await roomService.removeUser(roomId, userId);
+    res.json({ message: `User ${userId} removed from room ${roomId}` });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to remove user from room' });
+  }
 });
 
 router.get('/:roomId/status/:userId', async (req, res) => {
