@@ -3,6 +3,7 @@ import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import RoomUsers, { type UserStatus } from '../components/RoomUsers';
 import * as api from '../services/api';
 import * as socketService from '../services/socket';
+import './RoomPage.css';
 
 export default function RoomPage() {
   const { roomId } = useParams();
@@ -54,15 +55,15 @@ export default function RoomPage() {
   }
 
   return (
-    <div>
+    <div className='room-page'>
       <h1>Room: {roomId}</h1>
       <p>Your Status: <strong>{status}</strong></p>
 
-      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-        <button onClick={() => handleStatusChange('Going to Bunker')}>Going to Bunker</button>
-        <button onClick={() => handleStatusChange('In Bunker')}>In Bunker</button>
-        <button onClick={() => handleStatusChange('Leaving Bunker')}>Leaving Bunker</button>
-        <button onClick={() => handleStatusChange('All Ok')}>All Ok</button>
+      <div className='status-buttons'>
+        <button onClick={() => handleStatusChange('Going to Bunker')} className='going-to-bunker'>Going to Bunker</button>
+        <button onClick={() => handleStatusChange('In Bunker')} className='in-bunker'>In Bunker</button>
+        <button onClick={() => handleStatusChange('Leaving Bunker')} className='leaving-bunker'>Leaving Bunker</button>
+        <button onClick={() => handleStatusChange('All Ok')} className='all-ok'>All Ok</button>
       </div>
 
       <button onClick={handleLeaveRoom}>Leave Room</button>

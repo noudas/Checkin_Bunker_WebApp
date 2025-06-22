@@ -1,0 +1,29 @@
+/* Reset some default styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #e2e2e2;
+  color: #333;
+}
+
+/* Center the app container fully */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Optional: add padding around the app */
+#root {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+}

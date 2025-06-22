@@ -22,7 +22,6 @@ export default function JoinRoomForm({ onJoin, disabled }: JoinRoomFormProps) {
 
   return (
     <div>
-      <h2>Join Room</h2>
       <input
         type="text"
         placeholder="Room ID"

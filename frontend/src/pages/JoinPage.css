@@ -1,0 +1,164 @@
+/* ===============================
+   Global & Base Styles
+================================== */
+:root {
+  --color-primary: #ff5a5f;
+  --color-bg: #ffffff;
+  --color-text: #222222;
+  --color-muted: #717171;
+  --color-border: #e0e0e0;
+  --font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --card-bg: #f7f7f7;
+  --shadow-light: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.join-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* ===============================
+   Headings
+================================== */
+.join-page h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: var(--color-text);
+}
+
+.room-list h1,
+.join-room-form h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.join-room-form p {
+  font-size: 0.95rem;
+  color: var(--color-muted);
+  margin-bottom: 1.5rem;
+}
+
+/* ===============================
+   Success Message
+================================== */
+.room-created-message {
+  background-color: #dff0d8;
+  color: #3c763d;
+  border: 1px solid #d0e9c6;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===============================
+   Layout
+================================== */
+.join-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.room-list,
+.join-room-form {
+  background-color: var(--card-bg);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow-light);
+  border: 1px solid var(--color-border);
+}
+
+/* Side-by-side layout for larger screens */
+@media (min-width: 768px) {
+  .join-content {
+    flex-direction: row;
+  }
+
+  .room-list,
+  .join-room-form {
+    flex: 1;
+    max-width: 50%;
+  }
+}
+
+/* ===============================
+   Buttons
+================================== */
+button {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+button:hover {
+  background-color: #e04850;
+}
+
+button:focus {
+  outline: 3px solid rgba(255, 90, 95, 0.3);
+  outline-offset: 2px;
+}
+
+/* ===============================
+   Form Elements
+================================== */
+input,
+select,
+textarea {
+  font-family: var(--font-family);
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  width: 100%;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(255, 90, 95, 0.2);
+}
+
+/* ===============================
+   Utility
+================================== */
+.text-muted {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
