@@ -18,12 +18,6 @@ export default function RoomList({ rooms, onCreateRoom, disabled }: RoomListProp
 
   return (
     <div>
-      <h2>Available Rooms</h2>
-      <ul>
-        {rooms.map((room) => (
-          <li key={room}>{room}</li>
-        ))}
-      </ul>
       <input
         type="text"
         placeholder="New room ID"
