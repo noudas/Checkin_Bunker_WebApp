@@ -8,13 +8,14 @@ export default function RoomPage() {
   const { roomId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const { userId, userName, status } = location.state || {};
+  const { userId, userName, status: initialStatus } = location.state || {};
 
   const [roomUsers, setRoomUsers] = useState<UserStatus[]>([]);
   const [socket, setSocket] = useState<ReturnType<typeof socketService.connectSocket> | null>(null);
+  const [status, setStatus] = useState(initialStatus);
 
   useEffect(() => {
-    if (!roomId || !userId || !userName || !status) {
+    if (!roomId || !userId || !userName || !initialStatus) {
       navigate('/');
       return;
     }
@@ -24,7 +25,7 @@ export default function RoomPage() {
 
     socket.on('connect', async () => {
       console.log('Socket connected');
-      await api.joinRoomStatus(roomId, status, userName);
+      await api.joinRoomStatus(roomId, initialStatus, userName);
       const users = await api.fetchRoomUsers(roomId);
       setRoomUsers(users);
     });
@@ -44,9 +45,26 @@ export default function RoomPage() {
     navigate('/');
   }
 
+  async function handleStatusChange(newStatus: string) {
+    if (!roomId || !userName) return;
+    await api.joinRoomStatus(roomId, newStatus, userName);
+    setStatus(newStatus);
+    const updatedUsers = await api.fetchRoomUsers(roomId);
+    setRoomUsers(updatedUsers);
+  }
+
   return (
     <div>
       <h1>Room: {roomId}</h1>
+      <p>Your Status: <strong>{status}</strong></p>
+
+      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+        <button onClick={() => handleStatusChange('Going to Bunker')}>Going to Bunker</button>
+        <button onClick={() => handleStatusChange('In Bunker')}>In Bunker</button>
+        <button onClick={() => handleStatusChange('Leaving Bunker')}>Leaving Bunker</button>
+        <button onClick={() => handleStatusChange('All Ok')}>All Ok</button>
+      </div>
+
       <button onClick={handleLeaveRoom}>Leave Room</button>
       <RoomUsers users={roomUsers} />
     </div>
