@@ -7,13 +7,14 @@ interface JoinRoomFormProps {
 
 export default function JoinRoomForm({ onJoin, disabled }: JoinRoomFormProps) {
   const [roomId, setRoomId] = useState('');
-  const [userId, setUserId] = useState('');
   const [userName, setUserName] = useState('');
-  const [status, setStatus] = useState('');
+
+  const userId = userName; // userId is always equal to userName
+  const status = 'joining'; // default status
 
   function handleJoin() {
-    if (!roomId || !userId || !userName) {
-      alert('Please fill in Room ID, User ID and Name');
+    if (!roomId || !userName) {
+      alert('Please fill in Room ID and Name');
       return;
     }
     onJoin(roomId, userId, userName, status);
@@ -31,23 +32,9 @@ export default function JoinRoomForm({ onJoin, disabled }: JoinRoomFormProps) {
       />
       <input
         type="text"
-        placeholder="User ID"
-        value={userId}
-        onChange={(e) => setUserId(e.target.value)}
-        disabled={disabled}
-      />
-      <input
-        type="text"
         placeholder="Name"
         value={userName}
         onChange={(e) => setUserName(e.target.value)}
-        disabled={disabled}
-      />
-      <input
-        type="text"
-        placeholder="Status"
-        value={status}
-        onChange={(e) => setStatus(e.target.value)}
         disabled={disabled}
       />
       <button onClick={handleJoin} disabled={disabled}>
