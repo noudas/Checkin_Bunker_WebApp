@@ -95,5 +95,16 @@ router.get('/:roomId/users', async (req, res) => {
   res.json({ roomId, users });
 });
 
+// DELETE /rooms/:roomId - Delete a room completely
+router.delete('/:roomId', async (req, res) => {
+  const roomId = req.params.roomId;
+
+  const exists = await roomService.roomExists(roomId);
+  if (!exists) return res.status(404).json({ error: 'Room not found' });
+
+  await roomService.deleteRoom(roomId);
+  res.json({ message: `Room ${roomId} deleted successfully.` });
+});
+
 
 module.exports = router;

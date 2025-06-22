@@ -118,6 +118,14 @@ async function getUsersInRoom(roomId) {
   return await redis.sMembers(getUsersKey(roomId));
 }
 
+async function deleteRoom(roomId) {
+  await Promise.all([
+    redis.del(getStatusKey(roomId)),
+    redis.del(getNameKey(roomId)),
+    redis.del(getUsersKey(roomId)),
+    redis.sRem('rooms', roomId),
+  ]);
+}
 
 
 module.exports = {
@@ -130,4 +138,5 @@ module.exports = {
   cleanRooms,
   getUserStatus,
   getUsersInRoom,
+  deleteRoom,
 };
