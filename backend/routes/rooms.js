@@ -30,11 +30,13 @@ router.get('/:roomId', async (req, res) => {
 
 router.post('/:roomId/status', async (req, res) => {
   const { status, name } = req.body;
-  const userId = req.userId;
   const roomId = req.params.roomId;
+  const userId = name;
 
-  if (!status || !name) {
-    return res.status(400).json({ error: 'status and name required' });
+  console.log('SET STATUS:', { roomId, userId, status, name });
+
+  if (!userId || !status || !name) {
+    return res.status(400).json({ error: 'userId, status, and name required' });
   }
 
   const exists = await roomService.roomExists(roomId);
@@ -47,12 +49,13 @@ router.post('/:roomId/status', async (req, res) => {
 
 // PUT /rooms/:roomId/status - Update user's status
 router.put('/:roomId/status', async (req, res) => {
-  const { status, name } = req.body;
-  const userId = req.userId;
+  const { userId, status, name } = req.body;
   const roomId = req.params.roomId;
 
-  if (!status) {
-    return res.status(400).json({ error: 'status is required to update' });
+  console.log('SET STATUS:', { roomId, userId, status, name });
+
+  if (!userId || !status || !name) {
+    return res.status(400).json({ error: 'userId, status, and name required' });
   }
 
   const exists = await roomService.roomExists(roomId);
