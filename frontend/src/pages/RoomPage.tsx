@@ -55,19 +55,30 @@ export default function RoomPage() {
   }
 
   return (
-    <div className='room-page'>
+  <div className='room-page'>
+    <div className='room-header'>
       <h1>Room: {roomId}</h1>
       <p>Your Status: <strong>{status}</strong></p>
+    </div>
 
-      <div className='status-buttons'>
-        <button onClick={() => handleStatusChange('Going to Bunker')} className='going-to-bunker'>Going to Bunker</button>
-        <button onClick={() => handleStatusChange('In Bunker')} className='in-bunker'>In Bunker</button>
-        <button onClick={() => handleStatusChange('Leaving Bunker')} className='leaving-bunker'>Leaving Bunker</button>
-        <button onClick={() => handleStatusChange('All Ok')} className='all-ok'>All Ok</button>
+    <div className='room-main'>
+      <div className='room-left'>
+        <RoomUsers users={roomUsers} />
       </div>
 
-      <button onClick={handleLeaveRoom}>Leave Room</button>
-      <RoomUsers users={roomUsers} />
+      <div className='room-right'>
+        <div className='status-buttons'>
+          <button onClick={() => handleStatusChange('Going to Bunker')} className='going-to-bunker'>Going to Bunker</button>
+          <button onClick={() => handleStatusChange('In Bunker')} className='in-bunker'>In Bunker</button>
+          <button onClick={() => handleStatusChange('Leaving Bunker')} className='leaving-bunker'>Leaving Bunker</button>
+          <button onClick={() => handleStatusChange('All Ok')} className='all-ok'>All Ok</button>
+        </div>
+      </div>
     </div>
-  );
+
+    <div className='room-footer'>
+      <button onClick={handleLeaveRoom}>Leave Room</button>
+    </div>
+  </div>
+);
 }
